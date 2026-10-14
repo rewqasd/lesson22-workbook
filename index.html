@@ -1,0 +1,2342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson 22 - A Glass Envelope | Interactive Workbook</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --primary-light: #dbeafe;
+      --secondary: #475569;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --success: #16a34a;
+      --success-light: #dcfce7;
+      --warning: #ea580c;
+      --warning-light: #ffedd5;
+      --danger: #dc2626;
+      --danger-light: #fee2e2;
+      --purple: #9333ea;
+      --purple-light: #f3e8ff;
+      --radius: 10px;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+      --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding-bottom: 60px;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+      color: white;
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+    }
+
+    header h1 {
+      font-size: 2.2rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    header p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      max-width: 650px;
+      margin: 0 auto;
+    }
+
+    .badge-container {
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      background-color: rgba(255, 255, 255, 0.2);
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+      display: flex;
+      justify-content: center;
+      overflow-x: auto;
+      white-space: nowrap;
+      padding: 0.5rem 1rem;
+    }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      padding: 0.75rem 1.25rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--secondary);
+      cursor: pointer;
+      border-radius: var(--radius);
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .tab-btn:hover {
+      background-color: var(--primary-light);
+      color: var(--primary);
+    }
+
+    .tab-btn.active {
+      background-color: var(--primary);
+      color: white;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 0 1.25rem;
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 1.75rem;
+      margin-bottom: 1.75rem;
+      box-shadow: var(--shadow);
+    }
+
+    .card h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #1e293b;
+      border-bottom: 2px solid var(--primary-light);
+      padding-bottom: 0.5rem;
+    }
+
+    .card h3 {
+      font-size: 1.2rem;
+      margin: 1.25rem 0 0.75rem 0;
+      color: #334155;
+    }
+
+    .card p, .card ul, .card ol {
+      margin-bottom: 1rem;
+      color: #334155;
+    }
+
+    .card ul, .card ol {
+      padding-left: 1.5rem;
+    }
+
+    .card li {
+      margin-bottom: 0.5rem;
+    }
+
+    /* Text & Story Display */
+    .story-box {
+      background: #f1f5f9;
+      border-left: 4px solid var(--primary);
+      padding: 1.25rem 1.5rem;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      font-size: 1.1rem;
+      line-height: 1.8;
+      margin: 1.25rem 0;
+      font-style: italic;
+    }
+
+    /* Diagram Styles */
+    .svg-container {
+      width: 100%;
+      overflow-x: auto;
+      background: #ffffff;
+      padding: 1rem 0;
+      display: flex;
+      justify-content: center;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      margin: 1.25rem 0;
+    }
+
+    svg {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* Vocabulary Cards Grid */
+    .vocab-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+      margin: 1.5rem 0;
+    }
+
+    .vocab-item {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      background: #ffffff;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .vocab-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+    }
+
+    .vocab-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.5rem;
+    }
+
+    .vocab-word {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .vocab-ipa {
+      font-size: 0.95rem;
+      color: var(--secondary);
+      font-family: monospace;
+    }
+
+    .vocab-pos {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #64748b;
+      background: #f1f5f9;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      margin-left: 0.5rem;
+    }
+
+    .vocab-meta {
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+      color: #475569;
+    }
+
+    .vocab-example {
+      font-size: 0.9rem;
+      background: #f8fafc;
+      padding: 0.6rem 0.8rem;
+      border-left: 3px solid var(--primary);
+      margin-top: 0.5rem;
+      color: #1e293b;
+    }
+
+    /* Interactive Flashcard Component */
+    .flashcard-wrapper {
+      perspective: 1000px;
+      width: 100%;
+      max-width: 500px;
+      height: 280px;
+      margin: 1.5rem auto;
+      cursor: pointer;
+    }
+
+    .flashcard {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+      border-radius: var(--radius);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    }
+
+    .flashcard.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .card-face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: var(--radius);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+
+    .card-front {
+      background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+      color: #1e3a8a;
+    }
+
+    .card-back {
+      background: #ffffff;
+      color: var(--text);
+      transform: rotateY(180deg);
+      overflow-y: auto;
+    }
+
+    .flashcard-nav {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1rem;
+      align-items: center;
+    }
+
+    /* Buttons */
+    .btn {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: var(--radius);
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s, transform 0.1s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn:hover {
+      background-color: var(--primary-dark);
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-secondary {
+      background-color: var(--secondary);
+    }
+
+    .btn-secondary:hover {
+      background-color: #334155;
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid var(--border);
+      color: var(--secondary);
+    }
+
+    .btn-outline:hover {
+      background-color: #f1f5f9;
+      color: var(--text);
+    }
+
+    /* Quiz Elements */
+    .quiz-container {
+      margin-top: 1.5rem;
+    }
+
+    .quiz-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+      background: #ffffff;
+      transition: border-color 0.2s;
+    }
+
+    .quiz-card.answered-correct {
+      border-left: 5px solid var(--success);
+    }
+
+    .quiz-card.answered-wrong {
+      border-left: 5px solid var(--danger);
+    }
+
+    .quiz-question {
+      font-weight: 600;
+      font-size: 1.05rem;
+      margin-bottom: 1rem;
+      color: #1e293b;
+    }
+
+    .quiz-options {
+      display: grid;
+      gap: 0.5rem;
+    }
+
+    .quiz-option {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      text-align: left;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      width: 100%;
+    }
+
+    .quiz-option:hover:not(:disabled) {
+      background: var(--primary-light);
+      border-color: var(--primary);
+    }
+
+    .quiz-option.correct {
+      background-color: var(--success-light);
+      border-color: var(--success);
+      color: #14532d;
+      font-weight: 600;
+    }
+
+    .quiz-option.wrong {
+      background-color: var(--danger-light);
+      border-color: var(--danger);
+      color: #7f1d1d;
+      font-weight: 600;
+    }
+
+    .quiz-explanation {
+      margin-top: 0.75rem;
+      padding: 0.75rem 1rem;
+      background: #f8fafc;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      display: none;
+      line-height: 1.5;
+    }
+
+    .score-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f1f5f9;
+      padding: 1rem 1.25rem;
+      border-radius: var(--radius);
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+    }
+
+    /* Fill in the blanks */
+    .fill-item {
+      margin-bottom: 1.25rem;
+      padding: 1rem;
+      background: #f8fafc;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+
+    .blank-input {
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+      padding: 0.4rem 0.6rem;
+      font-size: 1rem;
+      margin: 0 0.25rem;
+      width: 150px;
+      font-family: inherit;
+    }
+
+    .blank-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+    }
+
+    .blank-feedback {
+      display: inline-block;
+      margin-left: 0.75rem;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    /* Matching Game */
+    .matching-board {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .matching-col {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .match-item {
+      padding: 0.85rem 1rem;
+      background: #ffffff;
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+      min-height: 52px;
+      display: flex;
+      align-items: center;
+    }
+
+    .match-item:hover {
+      border-color: #94a3b8;
+    }
+
+    .match-item.selected {
+      border-color: var(--primary);
+      background-color: var(--primary-light);
+      font-weight: 600;
+    }
+
+    .match-item.matched {
+      border-color: var(--success);
+      background-color: var(--success-light);
+      cursor: default;
+      color: #166534;
+      font-weight: 600;
+    }
+
+    /* Ordering Exercise */
+    .ordering-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin: 1.25rem 0;
+    }
+
+    .order-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1rem;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .order-btns {
+      display: flex;
+      gap: 0.25rem;
+    }
+
+    .order-btn {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      padding: 0.25rem 0.6rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .order-btn:hover {
+      background: #e2e8f0;
+    }
+
+    /* Sentence Correction */
+    .correction-item {
+      margin-bottom: 1.5rem;
+      padding: 1.25rem;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .err-text {
+      color: #991b1b;
+      font-family: monospace;
+      font-size: 1rem;
+      background: #fee2e2;
+      padding: 0.4rem 0.75rem;
+      border-radius: 4px;
+      margin-bottom: 0.75rem;
+      display: inline-block;
+    }
+
+    .correction-input {
+      width: 100%;
+      padding: 0.65rem 0.85rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      margin-bottom: 0.75rem;
+      font-family: inherit;
+    }
+
+    /* Writing Section */
+    .writing-prompt {
+      background: #f8fafc;
+      padding: 1.25rem;
+      border-radius: var(--radius);
+      border-left: 4px solid var(--purple);
+      margin-bottom: 1.25rem;
+    }
+
+    .writing-area {
+      width: 100%;
+      min-height: 220px;
+      padding: 1rem;
+      border: 1px solid #cbd5e1;
+      border-radius: var(--radius);
+      font-size: 1rem;
+      line-height: 1.6;
+      font-family: inherit;
+      resize: vertical;
+    }
+
+    .writing-area:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+    }
+
+    .word-counter {
+      text-align: right;
+      font-size: 0.9rem;
+      color: var(--secondary);
+      margin-top: 0.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .eval-box {
+      margin-top: 1.25rem;
+      padding: 1.25rem;
+      border-radius: var(--radius);
+      display: none;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Pronunciation Table */
+    .table-responsive {
+      overflow-x: auto;
+      margin: 1.25rem 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    th, td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      background-color: #f8fafc;
+      color: #475569;
+      font-weight: 600;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 1.7rem;
+      }
+      .matching-board {
+        grid-template-columns: 1fr;
+      }
+      .flashcard-wrapper {
+        height: 320px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Lesson 22: A Glass Envelope</h1>
+    <p>Comprehensive English Interactive Workbook & Mastery Course</p>
+    <div class="badge-container">
+      <span class="badge">New Concept English 2</span>
+      <span class="badge">Offline Compatible</span>
+      <span class="badge">Full Interactive Edition</span>
+      <span class="badge">100% English Content</span>
+    </div>
+  </header>
+
+  <nav>
+    <button class="tab-btn active" onclick="switchTab('overview')">Overview</button>
+    <button class="tab-btn" onclick="switchTab('vocabulary')">Vocabulary</button>
+    <button class="tab-btn" onclick="switchTab('grammar')">Grammar</button>
+    <button class="tab-btn" onclick="switchTab('text')">Text & Story</button>
+    <button class="tab-btn" onclick="switchTab('pronunciation')">Pronunciation</button>
+    <button class="tab-btn" onclick="switchTab('practice')">Practice Quizzes</button>
+    <button class="tab-btn" onclick="switchTab('writing')">Writing Lab</button>
+  </nav>
+
+  <main>
+
+    <!-- SECTION 1: OVERVIEW -->
+    <section id="overview" class="tab-content active">
+      <div class="card">
+        <h2>Lesson Overview & Learning Goals</h2>
+        <p>Welcome to the complete interactive study workbook for Lesson 22: <strong>A Glass Envelope</strong>. In this lesson, you will master the story of a young girl named Jane who dropped a message in a bottle into the English Channel and received an unexpected response ten months later.</p>
+        
+        <h3>Key Objectives</h3>
+        <ul>
+          <li><strong>Core Vocabulary:</strong> Understand core definitions, syntactic patterns, and derived forms for <code>dream</code>, <code>age</code>, <code>channel</code>, and <code>throw</code>.</li>
+          <li><strong>Grammar & Preposition Systems:</strong> Master the core relational spatial mechanics of prepositions <code>of</code>, <code>from</code>, <code>in</code>, and <code>on</code>, along with high-frequency prepositional verbs.</li>
+          <li><strong>Tense Sequencing:</strong> Analyze how past continuous, simple past, present perfect, simple present, and simple future combine naturally in English narrative prose.</li>
+          <li><strong>Interactive Exercises:</strong> Complete 10 multiple-choice questions, 8 true/false statements, 10 fill-in-the-blank items, vocabulary matching, timeline ordering, sentence corrections, and writing self-evaluations.</li>
+        </ul>
+
+        <h3>Preposition Spatial Mechanics</h3>
+        <p>Prepositions govern physical and logical connections. Below is the visual core map of <code>in</code>, <code>on</code>, <code>from</code>, and <code>of</code>:</p>
+        
+        <div class="svg-container">
+          <svg width="780" height="240" viewBox="0 0 780 240" xmlns="http://www.w3.org/2000/svg">
+            <rect width="100%" height="100%" fill="#ffffff" rx="8"/>
+            
+            <!-- IN: Container / Inside (Blue) -->
+            <g transform="translate(30, 20)">
+              <rect x="0" y="0" width="160" height="190" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+              <rect x="35" y="45" width="90" height="80" rx="6" fill="#bfdbfe" stroke="#1d4ed8" stroke-width="2" stroke-dasharray="4"/>
+              <circle cx="80" cy="85" r="14" fill="#2563eb"/>
+              <text x="80" y="28" font-size="16" font-weight="bold" fill="#1e3a8a" text-anchor="middle">IN</text>
+              <text x="80" y="150" font-size="13" font-weight="600" fill="#1e40af" text-anchor="middle">Container / Inside</text>
+              <text x="80" y="172" font-size="11" fill="#3b82f6" text-anchor="middle">in pubs / in a bottle</text>
+            </g>
+
+            <!-- ON: Surface / Contact (Green) -->
+            <g transform="translate(220, 20)">
+              <rect x="0" y="0" width="160" height="190" rx="10" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+              <line x1="25" y1="95" x2="135" y2="95" stroke="#15803d" stroke-width="4" stroke-linecap="round"/>
+              <circle cx="80" cy="75" r="14" fill="#16a34a"/>
+              <text x="80" y="28" font-size="16" font-weight="bold" fill="#14532d" text-anchor="middle">ON</text>
+              <text x="80" y="150" font-size="13" font-weight="600" fill="#15803d" text-anchor="middle">Surface / Contact</text>
+              <text x="80" y="172" font-size="11" fill="#22c55e" text-anchor="middle">on paper / on the desk</text>
+            </g>
+
+            <!-- FROM: Starting Point / Source (Orange) -->
+            <g transform="translate(410, 20)">
+              <rect x="0" y="0" width="160" height="190" rx="10" fill="#fff7ed" stroke="#ea580c" stroke-width="2"/>
+              <circle cx="45" cy="85" r="10" fill="#9a3412"/>
+              <path d="M 58 85 L 115 85 M 105 77 L 117 85 L 105 93" fill="none" stroke="#ea580c" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="125" cy="85" r="5" fill="#ea580c" opacity="0.5"/>
+              <text x="80" y="28" font-size="16" font-weight="bold" fill="#7c2d12" text-anchor="middle">FROM</text>
+              <text x="80" y="150" font-size="13" font-weight="600" fill="#c2410c" text-anchor="middle">Origin / Source</text>
+              <text x="80" y="172" font-size="11" fill="#f97316" text-anchor="middle">letter from Holland</text>
+            </g>
+
+            <!-- OF: Connection / Relation (Purple) -->
+            <g transform="translate(600, 20)">
+              <rect x="0" y="0" width="160" height="190" rx="10" fill="#faf5ff" stroke="#9333ea" stroke-width="2"/>
+              <circle cx="55" cy="85" r="14" fill="#a855f7" opacity="0.8"/>
+              <circle cx="105" cy="85" r="14" fill="#7e22ce" opacity="0.8"/>
+              <line x1="55" y1="85" x2="105" y2="85" stroke="#6b21a8" stroke-width="2" stroke-dasharray="2"/>
+              <text x="80" y="28" font-size="16" font-weight="bold" fill="#581c87" text-anchor="middle">OF</text>
+              <text x="80" y="150" font-size="13" font-weight="600" fill="#7e22ce" text-anchor="middle">Relation / Relation</text>
+              <text x="80" y="172" font-size="11" fill="#a855f7" text-anchor="middle">girl of her own age</text>
+            </g>
+          </svg>
+        </div>
+
+        <h3>Narrative Timeline with Tense Color-Coding</h3>
+        <p>The story utilizes five coordinated English tenses. Review the chronological progression below:</p>
+
+        <div class="svg-container">
+          <svg width="780" height="210" viewBox="0 0 780 210" xmlns="http://www.w3.org/2000/svg">
+            <rect width="100%" height="100%" fill="#ffffff" rx="8"/>
+            <line x1="40" y1="100" x2="740" y2="100" stroke="#cbd5e1" stroke-width="4" stroke-linecap="round"/>
+            
+            <!-- Point 1: Past Continuous (Blue) -->
+            <g transform="translate(60, 40)">
+              <circle cx="30" cy="60" r="12" fill="#2563eb"/>
+              <rect x="-25" y="-15" width="110" height="50" rx="6" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+              <text x="30" y="3" font-size="11" font-weight="bold" fill="#1e40af" text-anchor="middle">Past Continuous</text>
+              <text x="30" y="22" font-size="9.5" fill="#1e3a8a" text-anchor="middle">were travelling</text>
+              <text x="30" y="85" font-size="10" fill="#64748b" text-anchor="middle">Last year</text>
+            </g>
+
+            <!-- Point 2: Past Simple (Green) -->
+            <g transform="translate(210, 110)">
+              <circle cx="30" cy="-10" r="12" fill="#16a34a"/>
+              <rect x="-25" y="15" width="110" height="50" rx="6" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+              <text x="30" y="33" font-size="11" font-weight="bold" fill="#166534" text-anchor="middle">Past Simple</text>
+              <text x="30" y="52" font-size="9.5" fill="#14532d" text-anchor="middle">put & threw bottle</text>
+              <text x="30" y="-28" font-size="10" fill="#64748b" text-anchor="middle">Immediate action</text>
+            </g>
+
+            <!-- Point 3: Past Simple (Green) -->
+            <g transform="translate(360, 40)">
+              <circle cx="30" cy="60" r="12" fill="#16a34a"/>
+              <rect x="-25" y="-15" width="110" height="50" rx="6" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+              <text x="30" y="3" font-size="11" font-weight="bold" fill="#166534" text-anchor="middle">Past Simple</text>
+              <text x="30" y="22" font-size="9.5" fill="#14532d" text-anchor="middle">received letter</text>
+              <text x="30" y="85" font-size="10" fill="#64748b" text-anchor="middle">10 months later</text>
+            </g>
+
+            <!-- Point 4: Present Simple & Perfect (Purple / Orange) -->
+            <g transform="translate(510, 110)">
+              <circle cx="15" cy="-10" r="9" fill="#9333ea"/>
+              <circle cx="45" cy="-10" r="9" fill="#ea580c"/>
+              <rect x="-35" y="15" width="130" height="58" rx="6" fill="#fdf4ff" stroke="#c084fc" stroke-width="1.5"/>
+              <text x="30" y="31" font-size="10" font-weight="bold" fill="#7e22ce" text-anchor="middle">Present Simple / Perf.</text>
+              <text x="30" y="48" font-size="9" fill="#581c87" text-anchor="middle">write regularly</text>
+              <text x="30" y="62" font-size="9" fill="#9a3412" text-anchor="middle">have decided</text>
+              <text x="30" y="-28" font-size="10" fill="#64748b" text-anchor="middle">Now</text>
+            </g>
+
+            <!-- Point 5: Future Simple (Red) -->
+            <g transform="translate(660, 40)">
+              <circle cx="30" cy="60" r="12" fill="#dc2626"/>
+              <rect x="-25" y="-15" width="110" height="50" rx="6" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"/>
+              <text x="30" y="3" font-size="11" font-weight="bold" fill="#991b1b" text-anchor="middle">Future Simple</text>
+              <text x="30" y="22" font-size="9.5" fill="#7f1d1d" text-anchor="middle">will cost & travel</text>
+              <text x="30" y="85" font-size="10" fill="#64748b" text-anchor="middle">Future mail</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: VOCABULARY -->
+    <section id="vocabulary" class="tab-content">
+      <div class="card">
+        <h2>Vocabulary Deep Dive</h2>
+        <p>Examine the essential words and phrases extracted directly from the lesson text and analysis:</p>
+
+        <div class="vocab-grid">
+          <!-- Word 1: dream -->
+          <div class="vocab-item">
+            <div class="vocab-header">
+              <span class="vocab-word">dream</span>
+              <span class="vocab-ipa">/driːm/</span>
+              <span class="vocab-pos">n. & v.</span>
+            </div>
+            <div class="vocab-meta"><strong>Core Meaning:</strong> Mental imagery during sleep; an ambition or fond aspiration.</div>
+            <div class="vocab-meta"><strong>Extended Meaning:</strong> To envision, imagine as feasible, or aspire deeply.</div>
+            <div class="vocab-meta"><strong>Grammar Patterns:</strong>
+              <ul>
+                <li><code>dream of/about + sb/sth</code></li>
+                <li><code>dream of/about + doing sth</code></li>
+                <li><code>dream that + clause</code></li>
+              </ul>
+            </div>
+            <div class="vocab-example">"My daughter, Jane, never dreamed of receiving a letter from a girl of her own age in Holland."</div>
+            <div class="vocab-example">"She dreamed of becoming a chef." / "I dreamt that I got the job."</div>
+          </div>
+
+          <!-- Word 2: age -->
+          <div class="vocab-item">
+            <div class="vocab-header">
+              <span class="vocab-word">age</span>
+              <span class="vocab-ipa">/eɪdʒ/</span>
+              <span class="vocab-pos">n.</span>
+            </div>
+            <div class="vocab-meta"><strong>Core Meaning:</strong> The number of years someone or something has lived or existed.</div>
+            <div class="vocab-meta"><strong>Extended Meaning:</strong> A distinct historical epoch (the age of technology); a very long period (for ages).</div>
+            <div class="vocab-meta"><strong>Patterns:</strong>
+              <ul>
+                <li><code>at the age of [number]</code> / <code>at age [number]</code></li>
+                <li><code>[noun] of one's own age</code></li>
+                <li><code>wait for ages</code> (long duration)</li>
+              </ul>
+            </div>
+            <div class="vocab-example">"Kids need friends of their own age to play with."</div>
+            <div class="vocab-example">"In Britain, schooling starts at age 5." / "I've been waiting for ages."</div>
+          </div>
+
+          <!-- Word 3: channel -->
+          <div class="vocab-item">
+            <div class="vocab-header">
+              <span class="vocab-word">channel</span>
+              <span class="vocab-ipa">/ˈtʃænl/</span>
+              <span class="vocab-pos">n.</span>
+            </div>
+            <div class="vocab-meta"><strong>Core Meaning:</strong> A stretch of water joining two seas, or a pathway through which fluids or signals travel.</div>
+            <div class="vocab-meta"><strong>Extended Meaning:</strong> Television frequency band; digital video hub; official customs lane.</div>
+            <div class="vocab-meta"><strong>Special Note:</strong> When referring to the body of water between England and France, use the capital: <em>the Channel</em> (= the English Channel). Do not confuse with the fashion house <em>Chanel</em>.</div>
+            <div class="vocab-example">"Last year, we were travelling across the Channel..."</div>
+            <div class="vocab-example">"If you have nothing to declare, go through the green channel."</div>
+          </div>
+
+          <!-- Word 4: throw -->
+          <div class="vocab-item">
+            <div class="vocab-header">
+              <span class="vocab-word">throw</span>
+              <span class="vocab-ipa">/θrəʊ/</span>
+              <span class="vocab-pos">v. (threw, thrown)</span>
+            </div>
+            <div class="vocab-meta"><strong>Core Meaning:</strong> To propel an object with force through the air with the arm and hand.</div>
+            <div class="vocab-meta"><strong>Preposition Distinctions:</strong>
+              <ul>
+                <li><code>throw to sb:</code> Directional delivery (so they can catch it)</li>
+                <li><code>throw at sb:</code> Hostile targeting (to strike them)</li>
+                <li><code>throw sth away:</code> Discard or dispose of</li>
+                <li><code>throw sth into sth:</code> Propel inside an enclosure</li>
+              </ul>
+            </div>
+            <div class="vocab-example">"She threw the bottle into the sea."</div>
+            <div class="vocab-example">"He threw his shirt to me." = "He threw me his shirt."</div>
+          </div>
+        </div>
+
+        <h3>Interactive Vocabulary Flashcards</h3>
+        <p>Click on any flashcard to flip between the prompt and the full detailed breakdown:</p>
+        
+        <div class="flashcard-wrapper" onclick="toggleFlashcard()">
+          <div class="flashcard" id="activeFlashcard">
+            <div class="card-face card-front">
+              <span style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--primary);">Card <span id="fcNum">1</span> of 6</span>
+              <h3 id="fcFrontWord" style="font-size: 2rem; margin: 1rem 0; color: #1e3a8a;">dream of</h3>
+              <p style="color: #64748b;">(Click to flip)</p>
+            </div>
+            <div class="card-face card-back">
+              <h4 id="fcBackTitle" style="color: var(--primary); margin-bottom: 0.5rem; font-size: 1.3rem;">dream of / about</h4>
+              <p id="fcBackDef" style="font-size: 0.95rem; margin-bottom: 0.5rem;"><strong>Definition:</strong> To contemplate, desire, or imagine an outcome or event.</p>
+              <p id="fcBackPattern" style="font-size: 0.9rem; color: #475569; margin-bottom: 0.5rem;"><strong>Pattern:</strong> dream of doing something / dream of someone</p>
+              <div id="fcBackEx" class="vocab-example" style="font-size: 0.85rem;">"She dreamed of becoming an actress."</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flashcard-nav">
+          <button class="btn btn-outline" onclick="prevFlashcard()">Previous</button>
+          <span id="fcIndicator" style="font-weight: 600; color: #64748b;">1 / 6</span>
+          <button class="btn btn-outline" onclick="nextFlashcard()">Next</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: GRAMMAR -->
+    <section id="grammar" class="tab-content">
+      <div class="card">
+        <h2>Grammar Analysis: Prepositional Verbs & Spatial Logic</h2>
+        <p>A prepositional verb is composed of an intransitive or transitive verb combined with a fixed preposition. Together, they function as a unit taking a direct prepositional object.</p>
+
+        <h3>1. Spatial Core of Four Major Prepositions</h3>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Preposition</th>
+                <th>Underlying Core Concept</th>
+                <th>High-Frequency Verb Combinations</th>
+                <th>Target Lesson Examples</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>of</strong></td>
+                <td>Mental connection, relation, constituent parts</td>
+                <td>dream of, think of, consist of, hear of</td>
+                <td><em>"She never thought of it again."</em><br><em>"Breakfast consists of bread and milk."</em></td>
+              </tr>
+              <tr>
+                <td><strong>from</strong></td>
+                <td>Source, origin, departure point, separation</td>
+                <td>hear from, receive from, borrow from, suffer from, benefit from</td>
+                <td><em>"I received a letter from a girl in Holland."</em><br><em>"Many thousands have benefited from the new treatment."</em></td>
+              </tr>
+              <tr>
+                <td><strong>in</strong></td>
+                <td>Enclosure, boundary framework, internal containment</td>
+                <td>believe in, fill in, succeed in, go in</td>
+                <td><em>"My son believes in Santa Claus."</em><br><em>"Please fill in this application form."</em></td>
+              </tr>
+              <tr>
+                <td><strong>on</strong></td>
+                <td>Contact surface, focused objective, dedicated target</td>
+                <td>concentrate on, focus on, call on, spend on</td>
+                <td><em>"Focus on your own problems."</em><br><em>"Let's call on Kate on the way home."</em></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>2. Verb + Noun + Preposition Patterns</h3>
+        <p>When an adjective or noun intervenes, the preposition attaches to the broader idiom:</p>
+        <ul>
+          <li><strong>pay attention to:</strong> <em>"Pay attention to what the teacher says."</em></li>
+          <li><strong>pay close attention to:</strong> Emphasizes high diligence.</li>
+          <li><strong>pay scant attention to:</strong> Indicates disregard or minimal heed (<em>"He paid scant attention to what the teacher said."</em>).</li>
+        </ul>
+
+        <h3>3. Narrative Tense Architecture</h3>
+        <p>The lesson demonstrates how a master narrator weaves tenses to set stage, report incidents, state present routines, and project forward:</p>
+        <ol>
+          <li><strong>Past Continuous (<code>were travelling</code>):</strong> Establishes the continuous environmental background activity occurring over a prolonged stretch of time.</li>
+          <li><strong>Past Simple (<code>put</code>, <code>threw</code>, <code>received</code>):</strong> Marks completed single actions that occurred while or after the background event unfolded.</li>
+          <li><strong>Present Simple (<code>write</code>):</strong> Expresses ongoing regular habitual actions at the present moment.</li>
+          <li><strong>Present Perfect (<code>have decided</code>):</strong> Highlights a recent past choice that directly governs present and future behavior (namely, no longer using floating bottles).</li>
+          <li><strong>Future Simple (<code>will cost</code>, <code>will travel</code>):</strong> Predicts outcomes of the new method based on logical deduction.</li>
+        </ol>
+
+        <h3>Common Pitfalls to Avoid</h3>
+        <ul>
+          <li><strong>Confusing <code>hear from</code> vs. <code>hear of</code>:</strong> <em>Hear from</em> means to receive correspondence or communication from someone (<em>"I used to hear from my best friend"</em>). <em>Hear of</em> means to have knowledge of someone's existence (<em>"Have you heard of her?"</em>).</li>
+          <li><strong>Omission of prepositions before objects:</strong> Writing *<em>"She dreamed becoming a chef"</em> is incorrect; English requires <em>"She dreamed of becoming a chef."</em></li>
+          <li><strong>Confusing <code>throw to</code> vs. <code>throw at</code>:</strong> <em>Throw to</em> invites someone to catch it; <em>throw at</em> implies violence or hostile targeting.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- SECTION 4: TEXT -->
+    <section id="text" class="tab-content">
+      <div class="card">
+        <h2>Lesson 22 Text & Structural Analysis</h2>
+        
+        <h3>The Full Narrative: A Glass Envelope</h3>
+        <div class="story-box">
+          "My daughter, Jane, never dreamed of receiving a letter from a girl of her own age in Holland. Last year, we were travelling across the Channel and Jane put a piece of paper with her name and address on it into a bottle. She threw the bottle into the sea. She never thought of it again, but ten months later, she received a letter from a girl in Holland. Both girls write to each other regularly now. However, they have decided to use the post office. Letters will cost a little more, but they will certainly travel faster."
+        </div>
+
+        <h3>Syntactic Breakdown by Sentence</h3>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Sentence</th>
+                <th>Grammar & Rhetorical Function</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>1. "My daughter, Jane, never dreamed of receiving a letter from a girl of her own age in Holland."</strong></td>
+                <td>
+                  - <strong>Apposition:</strong> <code>Jane</code> is an appositive naming <code>My daughter</code>, bracketed by commas.<br>
+                  - <strong>Emphasis:</strong> <code>never</code> + past tense intensifies the complete absence of expectation.<br>
+                  - <strong>Prepositional Chains:</strong> <code>dreamed of receiving</code>; <code>letter from a girl</code>; <code>of her own age</code>; <code>in Holland</code>.
+                </td>
+              </tr>
+              <tr>
+                <td><strong>2. "Last year, we were travelling across the Channel and Jane put a piece of paper with her name and address on it into a bottle."</strong></td>
+                <td>
+                  - <strong>Coordinated Compound Sentence:</strong> Connected by coordinating conjunction <code>and</code>.<br>
+                  - <strong>Background Action:</strong> <code>were travelling</code> (past continuous) forms the overarching background.<br>
+                  - <strong>Focus Event:</strong> <code>put... into...</code> (past simple).<br>
+                  - <strong>Uncountable Noun:</strong> <code>a piece of paper</code> (paper is uncountable).
+                </td>
+              </tr>
+              <tr>
+                <td><strong>3. "She threw the bottle into the sea."</strong></td>
+                <td>
+                  - <strong>Dynamic Sequence:</strong> Immediate subsequent action in past simple. <code>into</code> highlights penetration past the water surface.
+                </td>
+              </tr>
+              <tr>
+                <td><strong>4. "She never thought of it again, but ten months later, she received a letter from a girl in Holland."</strong></td>
+                <td>
+                  - <strong>Pivotal Twist:</strong> <code>but</code> introduces the unexpected consequence.<br>
+                  - <strong>Pronominal Reference:</strong> <code>it</code> refers back to the discarded bottle.<br>
+                  - <strong>Time Adverbial:</strong> <code>ten months later</code> indicates chronological gap.
+                </td>
+              </tr>
+              <tr>
+                <td><strong>5. "Both girls write to each other regularly now."</strong></td>
+                <td>
+                  - <strong>Tense Shift:</strong> Shifts to Simple Present to represent current habitual communication.<br>
+                  - <strong>Subject Agreement:</strong> <code>Both girls</code> takes plural verb <code>write</code>.<br>
+                  - <strong>Reciprocal Pronoun:</strong> <code>each other</code> indicates mutual exchange.
+                </td>
+              </tr>
+              <tr>
+                <td><strong>6. "However, they have decided to use the post office."</strong></td>
+                <td>
+                  - <strong>Contrastive Adverb:</strong> <code>However</code> followed by a comma marks practical change.<br>
+                  - <strong>Present Perfect:</strong> <code>have decided</code> signals a past conclusion directly shaping their ongoing behavior.
+                </td>
+              </tr>
+              <tr>
+                <td><strong>7. "Letters will cost a little more, but they will certainly travel faster."</strong></td>
+                <td>
+                  - <strong>Logical Deduction:</strong> Future simple (<code>will cost</code> / <code>will travel</code>).<br>
+                  - <strong>Comparative Adverbs:</strong> <code>a little more</code> and <code>certainly faster</code> provide measured cost-benefit reasoning.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Narrative Summary</h3>
+        <p>While crossing the English Channel, a young girl named Jane enclosed her contact information in a bottle and tossed it into the sea without expecting any outcome. Against all odds, the bottle drifted for ten months until a Dutch girl of similar age retrieved it and replied by mail. Having established a regular friendship, the two pen pals subsequently abandoned drifting bottles in favor of standard postal services to ensure prompt delivery.</p>
+      </div>
+    </section>
+
+    <!-- SECTION 5: PRONUNCIATION -->
+    <section id="pronunciation" class="tab-content">
+      <div class="card">
+        <h2>Phonetics, Linking & Connected Speech</h2>
+        <p>Connected speech requires smooth transitions between consonant and vowel boundaries, flap sounds, and proper stress placement.</p>
+
+        <h3>Key Phonetic Features in Lesson 22</h3>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Word / Phrase</th>
+                <th>IPA Transcription</th>
+                <th>Connected Speech Feature</th>
+                <th>Articulation Guidance</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>daughter</strong></td>
+                <td>/ˈdɔːtər/</td>
+                <td>Flap /t/ (American)</td>
+                <td>The intervocalic /t/ often softens into a voiced alveolar flap [ɾ].</td>
+              </tr>
+              <tr>
+                <td><strong>dreamed of</strong></td>
+                <td>/driːmd əv/</td>
+                <td>Consonant-to-Vowel Linking</td>
+                <td>The final /d/ of <em>dreamed</em> links smoothly directly to the weak schwa /ə/ in <em>of</em>: [driːm-dəv].</td>
+              </tr>
+              <tr>
+                <td><strong>letter from</strong></td>
+                <td>/ˈletər frəm/</td>
+                <td>Flap /t/ & Weak Form</td>
+                <td>In <em>letter</em>, the /t/ flaps in rapid speech; <em>from</em> uses reduced vowel schwa /ə/.</td>
+              </tr>
+              <tr>
+                <td><strong>piece of paper</strong></td>
+                <td>/piːs əv ˈpeɪpər/</td>
+                <td>Sibilant-to-Schwa Link</td>
+                <td>Pronounce seamlessly as [piː-səv ˈpeɪpər], without pausing before <em>of</em>.</td>
+              </tr>
+              <tr>
+                <td><strong>name and address</strong></td>
+                <td>/neɪm ən əˈdres/</td>
+                <td>Conjunction Reduction</td>
+                <td>The conjunction <em>and</em> reduces to [ən], linking into the initial vowel of <em>address</em>: [neɪ-mə-nə-dres].</td>
+              </tr>
+              <tr>
+                <td><strong>on it into</strong></td>
+                <td>/ɒn ɪt ˈɪntuː/</td>
+                <td>Glide / Glottal / Flap</td>
+                <td>Link <em>on it</em> as [ɒ-nɪt]. Between <em>it into</em>, the /t/ is either lightly released or flapped before the vowel.</td>
+              </tr>
+              <tr>
+                <td><strong>thought of it again</strong></td>
+                <td>/θɔːt əv ɪt əˈɡen/</td>
+                <td>Triple Chain Link</td>
+                <td>Chain seamlessly: [θɔː-tə-vɪ-tə-ɡen]. Keep the voice continuous across the word boundaries.</td>
+              </tr>
+              <tr>
+                <td><strong>little more</strong></td>
+                <td>/ˈlɪtl mɔːr/</td>
+                <td>Lateral Plosion</td>
+                <td>The tongue tip stays on the alveolar ridge from the /t/ into the syllabic /l/ without inserting a vowel.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Rhythm and Sentence Stress Analysis</h3>
+        <p>Content words (nouns, main verbs, adjectives) take primary beat stresses, while function words (prepositions, auxiliary verbs, pronouns) reduce to weak forms:</p>
+        <div class="story-box" style="font-family: monospace; font-style: normal; font-size: 0.95rem;">
+          "My <strong>DAUGH</strong>-ter, <strong>JANE</strong>, <strong>NEV</strong>-er <strong>DREAMED</strong> of re-<strong>CEIV</strong>-ing a <strong>LET</strong>-ter from a <strong>GIRL</strong> of her own <strong>AGE</strong> in <strong>HOL</strong>-land."
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 6: PRACTICE QUIZZES -->
+    <section id="practice" class="tab-content">
+      <!-- Exercise 1: Multiple Choice Quiz -->
+      <div class="card">
+        <h2>1. Multiple-Choice Quiz (10 Questions)</h2>
+        <div class="score-banner">
+          <span>Score: <span id="mcqScore">0</span> / 10</span>
+          <button class="btn btn-outline" onclick="resetMCQ()">Reset Quiz</button>
+        </div>
+        <div class="quiz-container" id="mcqContainer"></div>
+      </div>
+
+      <!-- Exercise 2: True / False -->
+      <div class="card">
+        <h2>2. True / False Judgment (8 Statements)</h2>
+        <div class="score-banner">
+          <span>Score: <span id="tfScore">0</span> / 8</span>
+          <button class="btn btn-outline" onclick="resetTF()">Reset Statements</button>
+        </div>
+        <div class="quiz-container" id="tfContainer"></div>
+      </div>
+
+      <!-- Exercise 3: Fill-in-the-Blank -->
+      <div class="card">
+        <h2>3. Fill-in-the-Blank (10 Items)</h2>
+        <p>Fill in the correct prepositions, phrasal verbs, or vocabulary items. Answers are evaluated upon clicking the check button:</p>
+        <div class="score-banner">
+          <span>Score: <span id="fibScore">0</span> / 10</span>
+          <div style="display:flex; gap:0.5rem;">
+            <button class="btn" onclick="checkFIB()">Check Blanks</button>
+            <button class="btn btn-outline" onclick="resetFIB()">Reset</button>
+          </div>
+        </div>
+        <div id="fibContainer"></div>
+      </div>
+
+      <!-- Exercise 4: Matching -->
+      <div class="card">
+        <h2>4. Vocabulary & Phrase Matching</h2>
+        <p>Click an item in the left column, then click its corresponding definition in the right column:</p>
+        <div class="score-banner">
+          <span>Matches: <span id="matchScore">0</span> / 6</span>
+          <button class="btn btn-outline" onclick="resetMatching()">Reset Matching</button>
+        </div>
+        <div class="matching-board">
+          <div class="matching-col" id="matchTerms"></div>
+          <div class="matching-col" id="matchDefs"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 5: Timeline Ordering -->
+      <div class="card">
+        <h2>5. Chronological Timeline Ordering</h2>
+        <p>Use the Up (▲) and Down (▼) buttons to arrange these 6 narrative events in correct chronological sequence:</p>
+        <div class="score-banner">
+          <span id="orderFeedback" style="color: #475569;">Arrange items and click check.</span>
+          <div style="display: flex; gap: 0.5rem;">
+            <button class="btn" onclick="checkOrdering()">Check Order</button>
+            <button class="btn btn-outline" onclick="resetOrdering()">Reset</button>
+          </div>
+        </div>
+        <div class="ordering-list" id="orderList"></div>
+      </div>
+
+      <!-- Exercise 6: Sentence Correction -->
+      <div class="card">
+        <h2>6. Sentence Correction (6 Sentences)</h2>
+        <p>Each sentence below contains a grammatical or prepositional error from Lesson 22. Rewrite each sentence accurately:</p>
+        <div class="score-banner">
+          <span>Verified: <span id="scScore">0</span> / 6</span>
+          <button class="btn btn-outline" onclick="resetCorrection()">Reset Corrections</button>
+        </div>
+        <div id="correctionContainer"></div>
+      </div>
+    </section>
+
+    <!-- SECTION 7: WRITING LAB -->
+    <section id="writing" class="tab-content">
+      <div class="card">
+        <h2>7. Guided Writing Lab & Automated Evaluator</h2>
+        
+        <div class="writing-prompt">
+          <h3>Writing Assignment: "An Unexpected Message"</h3>
+          <p>Write a narrative imitation (60 - 120 words) detailing a personal experience or invented scenario where someone sent or received an unexpected message. You must fulfill the following criteria:</p>
+          <ul>
+            <li>Include an introductory sentence with <code>never dreamed of [doing sth]</code> or <code>never thought of</code>.</li>
+            <li>Incorporate at least two target prepositional phrases: <code>of his/her own age</code>, <code>hear from</code>, <code>put... into...</code>, or <code>decided to</code>.</li>
+            <li>Use appropriate tense sequencing (past continuous for background setting, past simple for main incidents, and present/future for concluding remarks).</li>
+            <li>Organize your composition into at least 1 cohesive paragraph.</li>
+          </ul>
+        </div>
+
+        <label for="userDraft" style="font-weight: 600; display: block; margin-bottom: 0.5rem;">Your Writing Draft:</label>
+        <textarea id="userDraft" class="writing-area" placeholder="Begin typing your English narrative here..." oninput="updateWritingMetrics()"></textarea>
+        
+        <div class="word-counter">
+          Word Count: <span id="wordCountDisplay" style="font-weight: bold; color: var(--primary);">0</span> words
+        </div>
+
+        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+          <button class="btn" onclick="evaluateWriting()">Check Writing</button>
+          <button class="btn btn-outline" onclick="saveDraft()">Save Draft</button>
+          <button class="btn btn-secondary" onclick="toggleModelAnswer()">Toggle Model Answer</button>
+        </div>
+
+        <div id="writingFeedback" class="eval-box"></div>
+
+        <!-- Model Answer Container -->
+        <div id="modelAnswerBox" style="display: none; margin-top: 1.5rem; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: var(--radius); padding: 1.25rem;">
+          <h3 style="color: #166534; margin-top: 0;">Author's Model Answer (Imitation Sample)</h3>
+          <div class="story-box" style="background: white; border-color: var(--success); font-style: normal;">
+            "My best friend, Mary, never dreamed of receiving an email from a boy of her own age. Last year, we were studying in the library and Mary put a note with her name and email address on it into a book. She put the book back on the shelf. She never thought of it again, but ten months later, she received an email from a boy. The boy must have read the book with that note. They write to each other regularly now. They have decided to meet up one day."
+          </div>
+          <h4 style="color: #15803d; margin-top: 0.75rem;">Analysis of Imitation Quality:</h4>
+          <ul style="color: #166534; font-size: 0.95rem;">
+            <li><strong>Parallel Construction:</strong> Mirrors Jane's bottle story using a library book as the vehicle.</li>
+            <li><strong>Grammar Precision:</strong> Accurately executes <code>never dreamed of receiving</code>, <code>put... into...</code>, and <code>write to each other regularly</code>.</li>
+            <li><strong>Tense Harmony:</strong> Flawlessly balances past continuous (<code>were studying</code>) with simple past and present perfect deduction.</li>
+          </ul>
+        </div>
+
+        <!-- Self-Assessment Checklist -->
+        <div style="margin-top: 1.75rem; background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem;">
+          <h3>Self-Assessment Checklist</h3>
+          <p style="font-size: 0.9rem; color: #64748b;">Review your completed draft against each standard below:</p>
+          <div class="checklist-item">
+            <input type="checkbox" id="chk1" onchange="saveChecklist()">
+            <label for="chk1">Did I include <em>never dreamed of</em> + gerund?</label>
+          </div>
+          <div class="checklist-item">
+            <input type="checkbox" id="chk2" onchange="saveChecklist()">
+            <label for="chk2">Did I accurately apply <em>of [one's] own age</em>?</label>
+          </div>
+          <div class="checklist-item">
+            <input type="checkbox" id="chk3" onchange="saveChecklist()">
+            <label for="chk3">Did I pair background past continuous (e.g., <em>were studying</em>) with simple past?</label>
+          </div>
+          <div class="checklist-item">
+            <input type="checkbox" id="chk4" onchange="saveChecklist()">
+            <label for="chk4">Did I verify correct prepositions (<em>into</em>, <em>from</em>, <em>of</em>)?</label>
+          </div>
+          <div class="checklist-item">
+            <input type="checkbox" id="chk5" onchange="saveChecklist()">
+            <label for="chk5">Is the draft between 60 and 120 words with correct capitalization and punctuation?</label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    /* ==========================================================
+       TAB SWITCHING
+       ========================================================== */
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+      
+      const targetBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.getAttribute('onclick').includes(tabId));
+      if (targetBtn) targetBtn.classList.add('active');
+      
+      const targetContent = document.getElementById(tabId);
+      if (targetContent) targetContent.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /* ==========================================================
+       FLASHCARDS DATA & LOGIC
+       ========================================================== */
+    const flashcardsData = [
+      {
+        word: "dream of / about",
+        title: "dream of / about (verb phrase)",
+        def: "To imagine, contemplate, or harbor as an aspiration or sleeping experience.",
+        pattern: "dream of doing sth | dream of sb/sth",
+        example: "She dreamed of becoming a chef."
+      },
+      {
+        word: "of one's own age",
+        title: "of one's own age (prepositional phrase)",
+        def: "Sharing identical or closely similar age with someone.",
+        pattern: "noun + of his/her/their own age",
+        example: "Kids need friends of their own age to play with."
+      },
+      {
+        word: "the Channel",
+        title: "the Channel (proper noun)",
+        def: "The body of water separating southern England from northern France (the English Channel).",
+        pattern: "the Channel (Always capitalized C)",
+        example: "Last year, we were travelling across the Channel..."
+      },
+      {
+        word: "throw into / away",
+        title: "throw (verb + prepositions)",
+        def: "To propel with arm force into an enclosure or discard into the trash.",
+        pattern: "throw sth into [container] | throw sth away",
+        example: "She threw the bottle into the sea."
+      },
+      {
+        word: "hear from vs. hear of",
+        title: "hear from / of (distinction)",
+        def: "Hear from = receive letters or communication; hear of = learn of someone's existence.",
+        pattern: "hear from sb | hear of sb/sth",
+        example: "I used to hear from my best friend."
+      },
+      {
+        word: "pay attention to",
+        title: "pay attention to (idiom)",
+        def: "To listen closely, concentrate mental focus, or heed advice.",
+        pattern: "pay attention to | pay scant attention to",
+        example: "Pay attention to what the teacher says."
+      }
+    ];
+
+    let currentFCIndex = 0;
+
+    function renderFlashcard() {
+      const card = flashcardsData[currentFCIndex];
+      const fc = document.getElementById('activeFlashcard');
+      fc.classList.remove('flipped');
+      
+      document.getElementById('fcNum').textContent = (currentFCIndex + 1);
+      document.getElementById('fcFrontWord').textContent = card.word;
+      document.getElementById('fcBackTitle').textContent = card.title;
+      document.getElementById('fcBackDef').innerHTML = `<strong>Definition:</strong> ${card.def}`;
+      document.getElementById('fcBackPattern').innerHTML = `<strong>Pattern:</strong> ${card.pattern}`;
+      document.getElementById('fcBackEx').textContent = `"${card.example}"`;
+      document.getElementById('fcIndicator').textContent = `${currentFCIndex + 1} / ${flashcardsData.length}`;
+    }
+
+    function toggleFlashcard() {
+      document.getElementById('activeFlashcard').classList.toggle('flipped');
+    }
+
+    function nextFlashcard() {
+      currentFCIndex = (currentFCIndex + 1) % flashcardsData.length;
+      renderFlashcard();
+    }
+
+    function prevFlashcard() {
+      currentFCIndex = (currentFCIndex - 1 + flashcardsData.length) % flashcardsData.length;
+      renderFlashcard();
+    }
+
+    /* ==========================================================
+       1. MULTIPLE CHOICE QUIZ (10 Questions)
+       ========================================================== */
+    const mcqQuestions = [
+      {
+        q: "1. 'Jane never dreamed ______ receiving a letter from a girl of her own age.' Which preposition correctly fits?",
+        opts: ["A) for", "B) of", "C) at", "D) with"],
+        ans: 1,
+        exp: "'Dream' followed by a gerund takes the preposition 'of' (or 'about') to signify contemplating or aspiring."
+      },
+      {
+        q: "2. In the sentence 'My daughter, Jane, never dreamed...', what grammatical function does 'Jane' serve?",
+        opts: ["A) Direct object", "B) Subject complement", "C) Appositive", "D) Adverbial modifier"],
+        ans: 2,
+        exp: "'Jane' is an appositive noun renaming and providing supplementary identification for 'My daughter'."
+      },
+      {
+        q: "3. 'Last year, we ______ across the Channel when Jane dropped the bottle.' Which verb form correctly provides background?",
+        opts: ["A) travelled", "B) were travelling", "C) have travelled", "D) had travelled"],
+        ans: 1,
+        exp: "The Past Continuous ('were travelling') expresses the overarching background progressive action."
+      },
+      {
+        q: "4. When referring to the body of water between England and France, how should 'channel' be written?",
+        opts: ["A) the channel (lowercase)", "B) the Channel (capitalized)", "C) Chanel", "D) a Channel"],
+        ans: 1,
+        exp: "'The Channel' is a specific geographic proper noun representing the English Channel, requiring a capital C."
+      },
+      {
+        q: "5. What is the subtle semantic difference between 'throw to someone' and 'throw at someone'?",
+        opts: [
+          "A) 'To' indicates hostility; 'at' indicates assistance",
+          "B) 'To' indicates intended delivery/catch; 'at' indicates a hostile target",
+          "C) Both are interchangeable in all formal registers",
+          "D) 'At' is only used for solid metal objects"
+        ],
+        ans: 1,
+        exp: "'Throw to' indicates direction so the recipient may catch it; 'throw at' marks the person as a target to hit."
+      },
+      {
+        q: "6. 'She never thought ______ it again.' Which preposition correctly completes the phrasal verb?",
+        opts: ["A) in", "B) on", "C) of", "D) out"],
+        ans: 2,
+        exp: "'Think of' means to recall or mentally reflect on a person or past incident."
+      },
+      {
+        q: "7. 'Both girls write to each other regularly now.' Why is the present simple tense used here?",
+        opts: [
+          "A) It denotes a completed past action",
+          "B) It expresses an established, regular present routine",
+          "C) It expresses an unreal hypothetical condition",
+          "D) It expresses an ongoing action occurring right this second only"
+        ],
+        ans: 1,
+        exp: "The present simple combined with the frequency marker 'regularly' denotes a habitual present routine."
+      },
+      {
+        q: "8. 'However, they ______ to use the post office.' Which form connects their past choice to present consequences?",
+        opts: ["A) decided", "B) have decided", "C) had been deciding", "D) will decide"],
+        ans: 1,
+        exp: "The Present Perfect ('have decided') highlights a past decision whose relevant consequence governs current actions."
+      },
+      {
+        q: "9. Which phrase accurately conveys 'receiving correspondence from a friend'?",
+        opts: ["A) hear of a friend", "B) hear from a friend", "C) hear to a friend", "D) hear out a friend"],
+        ans: 1,
+        exp: "'Hear from someone' means to receive a letter, phone call, or message directly from them."
+      },
+      {
+        q: "10. In 'Letters will cost a little more, but they will certainly travel faster', what part of speech is 'more'?",
+        opts: ["A) Adjective modifying letters", "B) Comparative adverb modifying cost", "C) Preposition", "D) Conjunction"],
+        ans: 1,
+        exp: "'More' is functioning here as a comparative adverb (comparative form of 'much') modifying the verb 'cost'."
+      }
+    ];
+
+    function renderMCQ() {
+      const container = document.getElementById('mcqContainer');
+      container.innerHTML = '';
+      const savedMCQ = JSON.parse(localStorage.getItem('mcqAnswers') || '{}');
+      let score = 0;
+
+      mcqQuestions.forEach((item, idx) => {
+        const card = document.createElement('div');
+        card.className = 'quiz-card';
+        card.id = `mcq-card-${idx}`;
+
+        const qTitle = document.createElement('div');
+        qTitle.className = 'quiz-question';
+        qTitle.textContent = item.q;
+        card.appendChild(qTitle);
+
+        const optsDiv = document.createElement('div');
+        optsDiv.className = 'quiz-options';
+
+        item.opts.forEach((optText, optIdx) => {
+          const btn = document.createElement('button');
+          btn.className = 'quiz-option';
+          btn.id = `mcq-${idx}-opt-${optIdx}`;
+          btn.textContent = optText;
+          btn.onclick = () => selectMCQ(idx, optIdx);
+          optsDiv.appendChild(btn);
+        });
+
+        card.appendChild(optsDiv);
+
+        const expDiv = document.createElement('div');
+        expDiv.className = 'quiz-explanation';
+        expDiv.id = `mcq-exp-${idx}`;
+        expDiv.innerHTML = `<strong>Explanation:</strong> ${item.exp}`;
+        card.appendChild(expDiv);
+
+        container.appendChild(card);
+
+        if (savedMCQ[idx] !== undefined) {
+          selectMCQ(idx, savedMCQ[idx], false);
+          if (savedMCQ[idx] === item.ans) score++;
+        }
+      });
+
+      document.getElementById('mcqScore').textContent = score;
+    }
+
+    function selectMCQ(qIdx, optIdx, save = true) {
+      const q = mcqQuestions[qIdx];
+      const card = document.getElementById(`mcq-card-${qIdx}`);
+      const expDiv = document.getElementById(`mcq-exp-${qIdx}`);
+      
+      const allBtns = card.querySelectorAll('.quiz-option');
+      allBtns.forEach(b => {
+        b.disabled = true;
+        b.classList.remove('correct', 'wrong');
+      });
+
+      const selectedBtn = document.getElementById(`mcq-${qIdx}-opt-${optIdx}`);
+      const correctBtn = document.getElementById(`mcq-${qIdx}-opt-${q.ans}`);
+
+      if (optIdx === q.ans) {
+        selectedBtn.classList.add('correct');
+        card.classList.add('answered-correct');
+        card.classList.remove('answered-wrong');
+      } else {
+        selectedBtn.classList.add('wrong');
+        correctBtn.classList.add('correct');
+        card.classList.add('answered-wrong');
+        card.classList.remove('answered-correct');
+      }
+
+      expDiv.style.display = 'block';
+
+      if (save) {
+        const saved = JSON.parse(localStorage.getItem('mcqAnswers') || '{}');
+        saved[qIdx] = optIdx;
+        localStorage.setItem('mcqAnswers', JSON.stringify(saved));
+        recalcMCQScore();
+      }
+    }
+
+    function recalcMCQScore() {
+      const saved = JSON.parse(localStorage.getItem('mcqAnswers') || '{}');
+      let score = 0;
+      mcqQuestions.forEach((q, idx) => {
+        if (saved[idx] === q.ans) score++;
+      });
+      document.getElementById('mcqScore').textContent = score;
+    }
+
+    function resetMCQ() {
+      localStorage.removeItem('mcqAnswers');
+      renderMCQ();
+    }
+
+    /* ==========================================================
+       2. TRUE / FALSE QUIZ (8 Statements)
+       ========================================================== */
+    const tfStatements = [
+      {
+        stmt: "1. Jane expected to receive a letter from Holland as soon as she threw the bottle.",
+        ans: false,
+        exp: "False. The text states Jane 'never dreamed of receiving a letter' and 'never thought of it again'."
+      },
+      {
+        stmt: "2. The Dutch girl who replied to Jane was approximately the same age as Jane.",
+        ans: true,
+        exp: "True. The story confirms she was 'a girl of her own age in Holland'."
+      },
+      {
+        stmt: "3. Jane threw the bottle into the Thames River while visiting London.",
+        ans: false,
+        exp: "False. She threw the bottle into the sea while travelling across the English Channel."
+      },
+      {
+        stmt: "4. The bottle took approximately ten months to be found and answered.",
+        ans: true,
+        exp: "True. Jane received the letter 'ten months later'."
+      },
+      {
+        stmt: "5. 'Schooling starts at age 5' is grammatically equivalent to 'Schooling starts at the age of 5'.",
+        ans: true,
+        exp: "True. Both structures are completely natural and standard in English."
+      },
+      {
+        stmt: "6. The phrase 'Breakfast consists of bread and milk' uses 'consist in' instead of 'consist of'.",
+        ans: false,
+        exp: "False. When denoting constituent ingredients or parts, English strictly requires 'consist of'."
+      },
+      {
+        stmt: "7. The two girls currently use floating glass bottles for their ongoing regular letters.",
+        ans: false,
+        exp: "False. The narrative explains: 'However, they have decided to use the post office.'"
+      },
+      {
+        stmt: "8. The modal prediction states letters via the post office will cost less money but travel slower.",
+        ans: false,
+        exp: "False. The text states they 'will cost a little more, but they will certainly travel faster'."
+      }
+    ];
+
+    function renderTF() {
+      const container = document.getElementById('tfContainer');
+      container.innerHTML = '';
+      const savedTF = JSON.parse(localStorage.getItem('tfAnswers') || '{}');
+      let score = 0;
+
+      tfStatements.forEach((item, idx) => {
+        const card = document.createElement('div');
+        card.className = 'quiz-card';
+        card.id = `tf-card-${idx}`;
+
+        const qTitle = document.createElement('div');
+        qTitle.className = 'quiz-question';
+        qTitle.textContent = item.stmt;
+        card.appendChild(qTitle);
+
+        const optsDiv = document.createElement('div');
+        optsDiv.className = 'quiz-options';
+        optsDiv.style.gridTemplateColumns = '1fr 1fr';
+
+        const trueBtn = document.createElement('button');
+        trueBtn.className = 'quiz-option';
+        trueBtn.id = `tf-${idx}-true`;
+        trueBtn.textContent = 'True';
+        trueBtn.onclick = () => selectTF(idx, true);
+
+        const falseBtn = document.createElement('button');
+        falseBtn.className = 'quiz-option';
+        falseBtn.id = `tf-${idx}-false`;
+        falseBtn.textContent = 'False';
+        falseBtn.onclick = () => selectTF(idx, false);
+
+        optsDiv.appendChild(trueBtn);
+        optsDiv.appendChild(falseBtn);
+        card.appendChild(optsDiv);
+
+        const expDiv = document.createElement('div');
+        expDiv.className = 'quiz-explanation';
+        expDiv.id = `tf-exp-${idx}`;
+        expDiv.innerHTML = `<strong>Explanation:</strong> ${item.exp}`;
+        card.appendChild(expDiv);
+
+        container.appendChild(card);
+
+        if (savedTF[idx] !== undefined) {
+          selectTF(idx, savedTF[idx], false);
+          if (savedTF[idx] === item.ans) score++;
+        }
+      });
+
+      document.getElementById('tfScore').textContent = score;
+    }
+
+    function selectTF(qIdx, userChoice, save = true) {
+      const item = tfStatements[qIdx];
+      const card = document.getElementById(`tf-card-${qIdx}`);
+      const expDiv = document.getElementById(`tf-exp-${qIdx}`);
+      
+      const trueBtn = document.getElementById(`tf-${qIdx}-true`);
+      const falseBtn = document.getElementById(`tf-${qIdx}-false`);
+      trueBtn.disabled = true;
+      falseBtn.disabled = true;
+
+      const chosenBtn = userChoice ? trueBtn : falseBtn;
+      const correctBtn = item.ans ? trueBtn : falseBtn;
+
+      if (userChoice === item.ans) {
+        chosenBtn.classList.add('correct');
+        card.classList.add('answered-correct');
+      } else {
+        chosenBtn.classList.add('wrong');
+        correctBtn.classList.add('correct');
+        card.classList.add('answered-wrong');
+      }
+
+      expDiv.style.display = 'block';
+
+      if (save) {
+        const saved = JSON.parse(localStorage.getItem('tfAnswers') || '{}');
+        saved[qIdx] = userChoice;
+        localStorage.setItem('tfAnswers', JSON.stringify(saved));
+        recalcTFScore();
+      }
+    }
+
+    function recalcTFScore() {
+      const saved = JSON.parse(localStorage.getItem('tfAnswers') || '{}');
+      let score = 0;
+      tfStatements.forEach((item, idx) => {
+        if (saved[idx] === item.ans) score++;
+      });
+      document.getElementById('tfScore').textContent = score;
+    }
+
+    function resetTF() {
+      localStorage.removeItem('tfAnswers');
+      renderTF();
+    }
+
+    /* ==========================================================
+       3. FILL IN THE BLANKS (10 Items)
+       ========================================================== */
+    const fibData = [
+      {
+        prefix: "1. She never dreamed ",
+        valid: ["of", "about"],
+        suffix: " receiving a reply from Holland.",
+        exp: "Use 'of' or 'about' after the verb 'dream'."
+      },
+      {
+        prefix: "2. Kids need loyal friends ",
+        valid: ["of"],
+        suffix: " their own age to play with.",
+        exp: "The standard phrase is 'of one's own age'."
+      },
+      {
+        prefix: "3. Jane put a piece of paper with her address ",
+        valid: ["into", "in"],
+        suffix: " a glass bottle.",
+        exp: "'into' (or 'in') indicates insertion into an enclosed container."
+      },
+      {
+        prefix: "4. Last year, they were travelling ",
+        valid: ["across"],
+        suffix: " the English Channel.",
+        exp: "'across' indicates traversing from one shore or side to the other."
+      },
+      {
+        prefix: "5. She threw the bottle ",
+        valid: ["into"],
+        suffix: " the sea.",
+        exp: "'throw into' emphasizes movement breaching the boundary of the water."
+      },
+      {
+        prefix: "6. She never thought ",
+        valid: ["of"],
+        suffix: " that bottle again.",
+        exp: "'thought of' indicates mental recollection."
+      },
+      {
+        prefix: "7. I used to hear ",
+        valid: ["from"],
+        suffix: " my best childhood friend every Christmas.",
+        exp: "'hear from' means to receive correspondence or contact from someone."
+      },
+      {
+        prefix: "8. Breakfast usually consists ",
+        valid: ["of"],
+        suffix: " fresh fruit, toast, and milk.",
+        exp: "'consist of' means to be made up or composed of."
+      },
+      {
+        prefix: "9. Please pay close attention ",
+        valid: ["to"],
+        suffix: " what the captain announces.",
+        exp: "'pay attention to' is the mandatory prepositional idiom."
+      },
+      {
+        prefix: "10. Letters will certainly travel much ",
+        valid: ["faster"],
+        suffix: " than a floating bottle.",
+        exp: "'faster' is the comparative form of 'fast'."
+      }
+    ];
+
+    function renderFIB() {
+      const container = document.getElementById('fibContainer');
+      container.innerHTML = '';
+      const savedFIB = JSON.parse(localStorage.getItem('fibAnswers') || '{}');
+
+      fibData.forEach((item, idx) => {
+        const div = document.createElement('div');
+        div.className = 'fill-item';
+        div.id = `fib-item-${idx}`;
+
+        const label = document.createElement('span');
+        label.textContent = item.prefix;
+        div.appendChild(label);
+
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'blank-input';
+        input.id = `fib-input-${idx}`;
+        input.value = savedFIB[idx] || '';
+        div.appendChild(input);
+
+        const suffix = document.createElement('span');
+        suffix.textContent = item.suffix;
+        div.appendChild(suffix);
+
+        const feedback = document.createElement('span');
+        feedback.className = 'blank-feedback';
+        feedback.id = `fib-feed-${idx}`;
+        div.appendChild(feedback);
+
+        const expDiv = document.createElement('div');
+        expDiv.className = 'quiz-explanation';
+        expDiv.id = `fib-exp-${idx}`;
+        expDiv.innerHTML = `<strong>Answer:</strong> <code>${item.valid.join(' / ')}</code> — ${item.exp}`;
+        div.appendChild(expDiv);
+
+        container.appendChild(div);
+      });
+
+      if (Object.keys(savedFIB).length > 0) {
+        checkFIB(false);
+      }
+    }
+
+    function checkFIB(save = true) {
+      let score = 0;
+      const toSave = {};
+
+      fibData.forEach((item, idx) => {
+        const input = document.getElementById(`fib-input-${idx}`);
+        const feed = document.getElementById(`fib-feed-${idx}`);
+        const exp = document.getElementById(`fib-exp-${idx}`);
+        const val = input.value.trim().toLowerCase();
+        toSave[idx] = input.value;
+
+        if (item.valid.map(v => v.toLowerCase()).includes(val)) {
+          score++;
+          feed.innerHTML = '✔ Correct';
+          feed.style.color = 'var(--success)';
+          input.style.borderColor = 'var(--success)';
+        } else {
+          feed.innerHTML = `✖ Incorrect`;
+          feed.style.color = 'var(--danger)';
+          input.style.borderColor = 'var(--danger)';
+        }
+        exp.style.display = 'block';
+      });
+
+      document.getElementById('fibScore').textContent = score;
+      if (save) {
+        localStorage.setItem('fibAnswers', JSON.stringify(toSave));
+      }
+    }
+
+    function resetFIB() {
+      localStorage.removeItem('fibAnswers');
+      renderFIB();
+      document.getElementById('fibScore').textContent = '0';
+    }
+
+    /* ==========================================================
+       4. MATCHING EXERCISE (6 Items)
+       ========================================================== */
+    const matchData = [
+      { id: "m1", term: "dream of", def: "Imagine or contemplate doing something" },
+      { id: "m2", term: "the Channel", def: "The waterway dividing Britain from France" },
+      { id: "m3", term: "hear from", def: "Receive correspondence or message from someone" },
+      { id: "m4", term: "consist of", def: "Be composed or made up of specific parts" },
+      { id: "m5", term: "throw away", def: "Discard something into the rubbish as useless" },
+      { id: "m6", term: "pay attention to", def: "Concentrate cognitive focus on a speaker or task" }
+    ];
+
+    let selectedMatchTerm = null;
+    let selectedMatchDef = null;
+    let matchesFound = {};
+
+    function renderMatching() {
+      const termsContainer = document.getElementById('matchTerms');
+      const defsContainer = document.getElementById('matchDefs');
+      termsContainer.innerHTML = '';
+      defsContainer.innerHTML = '';
+
+      matchesFound = JSON.parse(localStorage.getItem('matchCompleted') || '{}');
+      selectedMatchTerm = null;
+      selectedMatchDef = null;
+
+      matchData.forEach(item => {
+        const termDiv = document.createElement('div');
+        termDiv.className = 'match-item';
+        termDiv.id = `m-term-${item.id}`;
+        termDiv.textContent = item.term;
+        if (matchesFound[item.id]) {
+          termDiv.classList.add('matched');
+        } else {
+          termDiv.onclick = () => selectMatch('term', item.id);
+        }
+        termsContainer.appendChild(termDiv);
+      });
+
+      // Shuffled defs
+      const shuffledDefs = [...matchData].sort((a, b) => a.def.localeCompare(b.def));
+      shuffledDefs.forEach(item => {
+        const defDiv = document.createElement('div');
+        defDiv.className = 'match-item';
+        defDiv.id = `m-def-${item.id}`;
+        defDiv.textContent = item.def;
+        if (matchesFound[item.id]) {
+          defDiv.classList.add('matched');
+        } else {
+          defDiv.onclick = () => selectMatch('def', item.id);
+        }
+        defsContainer.appendChild(defDiv);
+      });
+
+      document.getElementById('matchScore').textContent = Object.keys(matchesFound).length;
+    }
+
+    function selectMatch(type, id) {
+      if (matchesFound[id]) return;
+
+      if (type === 'term') {
+        document.querySelectorAll('#matchTerms .match-item').forEach(el => el.classList.remove('selected'));
+        const el = document.getElementById(`m-term-${id}`);
+        el.classList.add('selected');
+        selectedMatchTerm = id;
+      } else {
+        document.querySelectorAll('#matchDefs .match-item').forEach(el => el.classList.remove('selected'));
+        const el = document.getElementById(`m-def-${id}`);
+        el.classList.add('selected');
+        selectedMatchDef = id;
+      }
+
+      if (selectedMatchTerm && selectedMatchDef) {
+        if (selectedMatchTerm === selectedMatchDef) {
+          // Success match
+          matchesFound[selectedMatchTerm] = true;
+          localStorage.setItem('matchCompleted', JSON.stringify(matchesFound));
+          document.getElementById(`m-term-${selectedMatchTerm}`).classList.remove('selected');
+          document.getElementById(`m-term-${selectedMatchTerm}`).classList.add('matched');
+          document.getElementById(`m-def-${selectedMatchDef}`).classList.remove('selected');
+          document.getElementById(`m-def-${selectedMatchDef}`).classList.add('matched');
+          document.getElementById('matchScore').textContent = Object.keys(matchesFound).length;
+          selectedMatchTerm = null;
+          selectedMatchDef = null;
+        } else {
+          // Wrong match - momentary flash
+          const tEl = document.getElementById(`m-term-${selectedMatchTerm}`);
+          const dEl = document.getElementById(`m-def-${selectedMatchDef}`);
+          tEl.style.borderColor = 'var(--danger)';
+          dEl.style.borderColor = 'var(--danger)';
+          setTimeout(() => {
+            tEl.classList.remove('selected');
+            dEl.classList.remove('selected');
+            tEl.style.borderColor = 'var(--border)';
+            dEl.style.borderColor = 'var(--border)';
+            selectedMatchTerm = null;
+            selectedMatchDef = null;
+          }, 450);
+        }
+      }
+    }
+
+    function resetMatching() {
+      localStorage.removeItem('matchCompleted');
+      renderMatching();
+    }
+
+    /* ==========================================================
+       5. CHRONOLOGICAL TIMELINE ORDERING (6 Events)
+       ========================================================== */
+    const originalEvents = [
+      { id: 1, text: "Jane and her family were travelling across the English Channel." },
+      { id: 2, text: "Jane enclosed her name and address inside a glass bottle." },
+      { id: 3, text: "Jane threw the glass bottle into the sea." },
+      { id: 4, text: "The bottle drifted in open water for ten full months." },
+      { id: 5, text: "A Dutch girl of Jane's own age recovered the bottle and replied." },
+      { id: 6, text: "Both girls decided to use the post office for faster mail." }
+    ];
+
+    let currentOrder = [];
+
+    function renderOrdering() {
+      const saved = localStorage.getItem('orderingState');
+      if (saved) {
+        currentOrder = JSON.parse(saved);
+      } else {
+        // Scrambled default
+        currentOrder = [3, 1, 5, 2, 6, 4];
+      }
+      buildOrderUI();
+    }
+
+    function buildOrderUI() {
+      const list = document.getElementById('orderList');
+      list.innerHTML = '';
+
+      currentOrder.forEach((evtId, idx) => {
+        const itemObj = originalEvents.find(e => e.id === evtId);
+        const row = document.createElement('div');
+        row.className = 'order-item';
+
+        const textSpan = document.createElement('span');
+        textSpan.innerHTML = `<strong>Step ${idx + 1}:</strong> ${itemObj.text}`;
+        row.appendChild(textSpan);
+
+        const btnGroup = document.createElement('div');
+        btnGroup.className = 'order-btns';
+
+        const upBtn = document.createElement('button');
+        upBtn.className = 'order-btn';
+        upBtn.textContent = '▲';
+        upBtn.disabled = (idx === 0);
+        upBtn.onclick = () => moveOrder(idx, -1);
+
+        const downBtn = document.createElement('button');
+        downBtn.className = 'order-btn';
+        downBtn.textContent = '▼';
+        downBtn.disabled = (idx === currentOrder.length - 1);
+        downBtn.onclick = () => moveOrder(idx, 1);
+
+        btnGroup.appendChild(upBtn);
+        btnGroup.appendChild(downBtn);
+        row.appendChild(btnGroup);
+
+        list.appendChild(row);
+      });
+    }
+
+    function moveOrder(idx, delta) {
+      const target = idx + delta;
+      if (target < 0 || target >= currentOrder.length) return;
+      const temp = currentOrder[idx];
+      currentOrder[idx] = currentOrder[target];
+      currentOrder[target] = temp;
+      localStorage.setItem('orderingState', JSON.stringify(currentOrder));
+      buildOrderUI();
+      document.getElementById('orderFeedback').textContent = "Order modified. Click Check Order to test.";
+      document.getElementById('orderFeedback').style.color = '#475569';
+    }
+
+    function checkOrdering() {
+      const isCorrect = currentOrder.every((val, idx) => val === (idx + 1));
+      const fb = document.getElementById('orderFeedback');
+      if (isCorrect) {
+        fb.textContent = "✔ Perfect! The timeline sequence is 100% historically accurate.";
+        fb.style.color = "var(--success)";
+      } else {
+        fb.textContent = "✖ Not quite right yet. Keep adjusting the chronological steps.";
+        fb.style.color = "var(--danger)";
+      }
+    }
+
+    function resetOrdering() {
+      localStorage.removeItem('orderingState');
+      renderOrdering();
+      document.getElementById('orderFeedback').textContent = "Order reset. Arrange items and click check.";
+      document.getElementById('orderFeedback').style.color = '#475569';
+    }
+
+    /* ==========================================================
+       6. SENTENCE CORRECTION (6 Sentences)
+       ========================================================== */
+    const correctionData = [
+      {
+        err: "Jane never dreamed to receive a letter from a girl of her age.",
+        correct: "Jane never dreamed of receiving a letter from a girl of her own age.",
+        keywords: ["dreamed of receiving", "her own age"],
+        exp: "Use 'dreamed of' followed by a gerund ('receiving') and standard phrase 'of her own age'."
+      },
+      {
+        err: "Last year, we travelled across channel when Jane threw a bottle.",
+        correct: "Last year, we were travelling across the Channel when Jane put a piece of paper into a bottle.",
+        keywords: ["were travelling", "the channel"],
+        exp: "Use past continuous 'were travelling' for progressive background, and capitalize 'the Channel'."
+      },
+      {
+        err: "She threw the bottle at the sea.",
+        correct: "She threw the bottle into the sea.",
+        keywords: ["into the sea"],
+        exp: "'throw into' correctly indicates penetration into the body of water."
+      },
+      {
+        err: "She never thought it again but ten months later she received letter.",
+        correct: "She never thought of it again, but ten months later, she received a letter from a girl in Holland.",
+        keywords: ["thought of it again"],
+        exp: "Must include preposition 'of' in 'thought of it again'."
+      },
+      {
+        err: "Both girl writes to each other regularly now.",
+        correct: "Both girls write to each other regularly now.",
+        keywords: ["both girls write"],
+        exp: "'Both' requires plural noun 'girls' and plural verb 'write'."
+      },
+      {
+        err: "Breakfast is consist in bread and milk.",
+        correct: "Breakfast consists of bread and milk.",
+        keywords: ["consists of"],
+        exp: "'consist' is an active intransitive verb taking preposition 'of' without passive auxiliary 'is'."
+      }
+    ];
+
+    function renderCorrection() {
+      const container = document.getElementById('correctionContainer');
+      container.innerHTML = '';
+      const savedCorr = JSON.parse(localStorage.getItem('corrAnswers') || '{}');
+      let score = 0;
+
+      correctionData.forEach((item, idx) => {
+        const div = document.createElement('div');
+        div.className = 'correction-item';
+        div.id = `corr-item-${idx}`;
+
+        const errBadge = document.createElement('div');
+        errBadge.className = 'err-text';
+        errBadge.textContent = item.err;
+        div.appendChild(errBadge);
+
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'correction-input';
+        input.id = `corr-input-${idx}`;
+        input.placeholder = "Type the corrected sentence here...";
+        input.value = savedCorr[idx] || '';
+        div.appendChild(input);
+
+        const btnBar = document.createElement('div');
+        btnBar.style.display = 'flex';
+        btnBar.style.gap = '0.5rem';
+
+        const chkBtn = document.createElement('button');
+        chkBtn.className = 'btn';
+        chkBtn.textContent = 'Verify';
+        chkBtn.onclick = () => verifyCorrection(idx);
+        btnBar.appendChild(chkBtn);
+
+        div.appendChild(btnBar);
+
+        const expDiv = document.createElement('div');
+        expDiv.className = 'quiz-explanation';
+        expDiv.id = `corr-exp-${idx}`;
+        expDiv.innerHTML = `<strong>Model Correction:</strong> <code>${item.correct}</code><br><strong>Rule:</strong> ${item.exp}`;
+        div.appendChild(expDiv);
+
+        container.appendChild(div);
+
+        if (savedCorr[idx]) {
+          const isOk = testCorrection(savedCorr[idx], item);
+          if (isOk) score++;
+        }
+      });
+
+      document.getElementById('scScore').textContent = score;
+    }
+
+    function testCorrection(val, item) {
+      const lower = val.toLowerCase().replace(/[.,!?;:'"]/g, ' ').replace(/\s+/g, ' ').trim();
+      return item.keywords.every(kw => lower.includes(kw.toLowerCase()));
+    }
+
+    function verifyCorrection(idx) {
+      const input = document.getElementById(`corr-input-${idx}`);
+      const expDiv = document.getElementById(`corr-exp-${idx}`);
+      const item = correctionData[idx];
+      const val = input.value.trim();
+
+      const saved = JSON.parse(localStorage.getItem('corrAnswers') || '{}');
+      saved[idx] = val;
+      localStorage.setItem('corrAnswers', JSON.stringify(saved));
+
+      expDiv.style.display = 'block';
+
+      if (testCorrection(val, item)) {
+        input.style.borderColor = 'var(--success)';
+        input.style.backgroundColor = 'var(--success-light)';
+      } else {
+        input.style.borderColor = 'var(--danger)';
+        input.style.backgroundColor = 'var(--danger-light)';
+      }
+
+      let score = 0;
+      correctionData.forEach((itm, i) => {
+        if (saved[i] && testCorrection(saved[i], itm)) score++;
+      });
+      document.getElementById('scScore').textContent = score;
+    }
+
+    function resetCorrection() {
+      localStorage.removeItem('corrAnswers');
+      renderCorrection();
+    }
+
+    /* ==========================================================
+       7. WRITING LAB, EVALUATOR & LOCAL STORAGE
+       ========================================================== */
+    function updateWritingMetrics() {
+      const text = document.getElementById('userDraft').value.trim();
+      const words = text ? text.split(/\s+/).filter(w => w.length > 0).length : 0;
+      document.getElementById('wordCountDisplay').textContent = words;
+    }
+
+    function saveDraft() {
+      const text = document.getElementById('userDraft').value;
+      localStorage.setItem('lesson22_draft', text);
+      alert("Your writing draft has been saved to localStorage!");
+    }
+
+    function loadDraft() {
+      const saved = localStorage.getItem('lesson22_draft');
+      if (saved) {
+        document.getElementById('userDraft').value = saved;
+        updateWritingMetrics();
+      }
+      
+      const chkSaved = JSON.parse(localStorage.getItem('lesson22_checklist') || '{}');
+      for (let i = 1; i <= 5; i++) {
+        const el = document.getElementById(`chk${i}`);
+        if (el && chkSaved[`chk${i}`]) el.checked = true;
+      }
+    }
+
+    function saveChecklist() {
+      const chk = {};
+      for (let i = 1; i <= 5; i++) {
+        const el = document.getElementById(`chk${i}`);
+        if (el) chk[`chk${i}`] = el.checked;
+      }
+      localStorage.setItem('lesson22_checklist', JSON.stringify(chk));
+    }
+
+    function toggleModelAnswer() {
+      const box = document.getElementById('modelAnswerBox');
+      box.style.display = (box.style.display === 'none' || !box.style.display) ? 'block' : 'none';
+    }
+
+    function evaluateWriting() {
+      const text = document.getElementById('userDraft').value.trim();
+      const feedbackBox = document.getElementById('writingFeedback');
+      feedbackBox.style.display = 'block';
+
+      if (!text) {
+        feedbackBox.style.background = 'var(--danger-light)';
+        feedbackBox.style.color = '#7f1d1d';
+        feedbackBox.innerHTML = "<strong>Error:</strong> Please write a draft before running evaluation.";
+        return;
+      }
+
+      const words = text.split(/\s+/).filter(w => w.length > 0).length;
+      const lower = text.toLowerCase();
+
+      // Criteria checks
+      const checks = [
+        {
+          label: "Word Count (Target: 60 - 120 words)",
+          passed: words >= 60 && words <= 140,
+          desc: `Current count: ${words} words.`
+        },
+        {
+          label: "Target Pattern: 'never dreamed of' or 'never thought of'",
+          passed: lower.includes("never dreamed") || lower.includes("never thought"),
+          desc: "Successfully found key emotional contrast pattern."
+        },
+        {
+          label: "Target Phrase: 'of [one's] own age' or 'hear from'",
+          passed: lower.includes("own age") || lower.includes("hear from") || lower.includes("receive"),
+          desc: "Verified peer correspondence phraseology."
+        },
+        {
+          label: "Tense Coordination: Past continuous or modal past found",
+          passed: lower.includes("were ") || lower.includes("was ") || lower.includes("decided to") || lower.includes("must have"),
+          desc: "Checked for background narrative structure."
+        },
+        {
+          label: "Paragraph Structure",
+          passed: text.length > 100 && text.includes('.'),
+          desc: "Complete sentences ending with proper punctuation observed."
+        }
+      ];
+
+      const passCount = checks.filter(c => c.passed).length;
+      let html = `<h4 style="margin-bottom: 0.75rem; color: ${passCount >= 4 ? '#166534' : '#9a3412'};">Automated Assessment Score: ${passCount} / 5 Criteria Met</h4><ul>`;
+      
+      checks.forEach(c => {
+        html += `<li><strong>${c.passed ? '✔ PASS' : '⚠ ATTENTION'}:</strong> ${c.label} (${c.desc})</li>`;
+      });
+      html += '</ul>';
+
+      if (passCount >= 4) {
+        feedbackBox.style.background = 'var(--success-light)';
+        feedbackBox.style.color = '#14532d';
+      } else {
+        feedbackBox.style.background = 'var(--warning-light)';
+        feedbackBox.style.color = '#7c2d12';
+      }
+
+      feedbackBox.innerHTML = html;
+      localStorage.setItem('lesson22_draft', text);
+    }
+
+    /* ==========================================================
+       INITIALIZATION
+       ========================================================== */
+    window.addEventListener('DOMContentLoaded', () => {
+      renderFlashcard();
+      renderMCQ();
+      renderTF();
+      renderFIB();
+      renderMatching();
+      renderOrdering();
+      renderCorrection();
+      loadDraft();
+    });
+  </script>
+</body>
+</html>
